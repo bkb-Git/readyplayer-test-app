@@ -2,27 +2,33 @@ import { useEffect, useState } from "react";
 
 //Material UI imported here
 import { createTheme, Grid, styled, ThemeProvider } from "@mui/material";
-import { Animation, Download, Man } from "@mui/icons-material";
+import { Download, Man } from "@mui/icons-material";
 
 // Components imported here
 import CustomAvatar from "./components/CustomAvatar";
 import StyledButton from "./components/StyledButton";
 import CustomInput from "./components/CustomInput";
 import CustomSwitch from "./components/CustomSwitch";
+import Animations from "./actions/Animations";
 
-// import HipHopAnimation from "./assets/twistDance.glb";
-// import HipHopAnimation from "./assets/breakdance.glb";
-import HipHopAnimation from "./assets/dancingTwerk.glb";
+// Animation imports here
+import twistDance from "./assets/twistDance.glb";
+import twerkDance from "./assets/dancingTwerk.glb";
+import moonwalkDance from "./assets/moonwalk.glb";
+
+// Local avatar imported here
+import MyAvatar from "./assets/my-avatar.glb";
 
 import "./App.css";
 
-// Visage imported here
-
 // Model url defined here
-// const modelSrc = "https://readyplayerme.github.io/visage/male.glb"; // You can change this URL and place your own avatar
-const modelSrc = "https://models.readyplayer.me/642ac1d7a5da014d03a6e62a.glb"; // You can change this URL and place your own avatar
-// const animationSrc = "https://readyplayerme.github.io//visage/male-idle.glb";
-const animationSrc = HipHopAnimation;
+const modelSrc = MyAvatar; // You can change this URL and place your own avatar
+
+const ANIMATIONS = {
+  twist: twistDance,
+  moonwalk: moonwalkDance,
+  twerk: twerkDance,
+};
 
 // Theme created
 const theme = createTheme({
@@ -48,7 +54,7 @@ const App = () => {
   // Avatar config state
   const [avatarConfig, setAvatarConfig] = useState({
     model: modelSrc,
-    animation: animationSrc,
+    animation: ANIMATIONS.twerk,
     halfBody: false,
   });
 
@@ -77,6 +83,14 @@ const App = () => {
       return { ...otherConfigs, halfBody: !halfBody };
     });
 
+  const handleChangeAnimation = (e) => {
+    const {
+      currentTarget: { id },
+    } = e;
+
+    setAvatarConfig({ ...avatarConfig, animation: ANIMATIONS[id] });
+  };
+
   const handleChange = (e) => {
     const {
       target: { id, value },
@@ -86,7 +100,7 @@ const App = () => {
   };
 
   // Render functions for this app's views
-  const renderButtons = () => {
+  const renderActions = () => {
     return (
       <Grid
         xl={4}
@@ -106,18 +120,7 @@ const App = () => {
           handler={handleSetSource}
           id="model"
         />
-        <StyledButton
-          icon={<Animation />}
-          input={
-            <CustomInput
-              onChange={handleChange}
-              id="animation"
-              label="Animation"
-            />
-          }
-          handler={handleSetSource}
-          id="animation"
-        />
+        <Animations handler={handleChangeAnimation} />
         <StyledButton
           icon={<Man />}
           input={
@@ -151,7 +154,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <StyledGrid>
-        {renderButtons()}
+        {renderActions()}
         {renderAvatar()}
       </StyledGrid>
     </ThemeProvider>
