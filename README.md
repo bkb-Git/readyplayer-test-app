@@ -6,18 +6,18 @@ This is a basic app that uses Ready Player Me's Visage library to display 3D ava
 
 1. Clone this repository to your local machine using the following command:
 
-git clone https://github.com/your-username/ready-player-me-api-app.git
+`git clone https://github.com/your-username/ready-player-me-api-app.git`
 
 2. Navigate to the cloned directory and install the required dependencies by running the following command:
 
-npm install
+`npm install`
 
 
 ## Usage
 
 1. Start the development server by running the following command:
 
-npm start
+`npm start`
 
 
 2. Open your web browser and navigate to `http://localhost:3000`.
